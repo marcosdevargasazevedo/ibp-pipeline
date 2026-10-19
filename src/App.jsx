@@ -106,3 +106,4 @@ function Workspace(){const starting=useMemo(read,[]);const [nodes,setNodes,onNod
  {!PUBLIC_SITE&&!present&&<span className="hint-label">One centered handle per side Â· Connect by dragging Â· Network icon generates rule-aware declared file graph Â· JSON backups Â· Visual links do not change Snakemake</span>}</div>}
 export default function App(){return <ReactFlowProvider><Workspace/></ReactFlowProvider>}
 
+
