@@ -5,30 +5,31 @@
       "id": "1",
       "type": "module",
       "position": {
-        "x": 191.73782629335815,
-        "y": -493.47717631701664
+        "x": 190.73782629335815,
+        "y": -514.4771763170166
       },
       "data": {
         "title": "Assembly discovery & selection",
         "description": "Discover, filter and select assemblies from public metadata.",
-        "color": "#5b83ed",
+        "color": "#15aab2",
         "num": 1,
-        "width": 265,
-        "fontSize": 16
+        "width": 358,
+        "fontSize": 16,
+        "backgroundColor": "#ffffff"
       },
       "measured": {
-        "width": 265,
-        "height": 187
+        "width": 358,
+        "height": 150
       },
-      "selected": true,
+      "selected": false,
       "dragging": false
     },
     {
       "id": "2",
       "type": "module",
       "position": {
-        "x": 164.19571000987116,
-        "y": 84.09331597487224
+        "x": 238.14364420975238,
+        "y": -125.44941164499696
       },
       "data": {
         "title": "Download & quality control",
@@ -36,7 +37,8 @@
         "color": "#4799ce",
         "num": 2,
         "width": 265,
-        "fontSize": 16
+        "fontSize": 16,
+        "backgroundColor": "#ffffff"
       },
       "measured": {
         "width": 265,
@@ -49,8 +51,8 @@
       "id": "3",
       "type": "module",
       "position": {
-        "x": 0,
-        "y": 315
+        "x": 238.12336287819664,
+        "y": 320.09442872049004
       },
       "data": {
         "title": "Chromosome normalization",
@@ -63,14 +65,16 @@
       "measured": {
         "width": 265,
         "height": 166
-      }
+      },
+      "selected": false,
+      "dragging": false
     },
     {
       "id": "4",
       "type": "module",
       "position": {
-        "x": 510,
-        "y": 315
+        "x": 237.66416995773858,
+        "y": 751.7296268989564
       },
       "data": {
         "title": "Reference & preparation",
@@ -83,34 +87,39 @@
       "measured": {
         "width": 265,
         "height": 166
-      }
+      },
+      "selected": false,
+      "dragging": false
     },
     {
       "id": "5",
       "type": "module",
       "position": {
-        "x": 0,
-        "y": 630
+        "x": 187.0455225207425,
+        "y": 1225.4475428442217
       },
       "data": {
         "title": "Inversion calling",
-        "description": "Plan genome comparisons and run inversion detection.",
+        "description": "Plan genome comparisons and run inversion detection.\n\nMethods used:\n\n- minimap2\n\n- Custom script (leen_core.py)\n\n- SyRI",
         "color": "#d2a45b",
         "num": 5,
-        "width": 265,
-        "fontSize": 16
+        "width": 366,
+        "fontSize": 21,
+        "backgroundColor": "#fdfdfc"
       },
       "measured": {
-        "width": 265,
-        "height": 166
-      }
+        "width": 366,
+        "height": 288
+      },
+      "selected": false,
+      "dragging": false
     },
     {
       "id": "6",
       "type": "module",
       "position": {
-        "x": 510,
-        "y": 630
+        "x": 238.35541796206115,
+        "y": 1782.7742017930627
       },
       "data": {
         "title": "Inversion catalogue",
@@ -123,14 +132,16 @@
       "measured": {
         "width": 265,
         "height": 150
-      }
+      },
+      "selected": false,
+      "dragging": false
     },
     {
       "id": "7",
       "type": "module",
       "position": {
-        "x": 0,
-        "y": 945
+        "x": 239.17427344357594,
+        "y": 2197.054800148867
       },
       "data": {
         "title": "Cross-species aggregation",
@@ -143,14 +154,16 @@
       "measured": {
         "width": 265,
         "height": 166
-      }
+      },
+      "selected": false,
+      "dragging": false
     },
     {
       "id": "8",
       "type": "module",
       "position": {
-        "x": 510,
-        "y": 945
+        "x": 228.68774921185022,
+        "y": 2688.6315640961134
       },
       "data": {
         "title": "Agreement & analysis",
@@ -163,96 +176,6 @@
       "measured": {
         "width": 265,
         "height": 166
-      }
-    },
-    {
-      "id": "artifact-1-0",
-      "type": "file",
-      "position": {
-        "x": -120.39033583892771,
-        "y": -91.19328995135069
-      },
-      "data": {
-        "title": "all_prokaryotes_metadata.tsv",
-        "description": "\"data/raw/all_prokaryotes_metadata.tsv\"",
-        "kind": "main",
-        "color": "#5c98ce",
-        "width": 245,
-        "sourceModule": "1",
-        "matchStatus": "Declared output only; link to consumers not resolved"
-      },
-      "measured": {
-        "width": 245,
-        "height": 76
-      },
-      "selected": false,
-      "dragging": false
-    },
-    {
-      "id": "artifact-1-1",
-      "type": "file",
-      "position": {
-        "x": -140.0938322666604,
-        "y": 78.58366963180482
-      },
-      "data": {
-        "title": "candidates.tsv",
-        "description": "\"data/processed/candidates.tsv\"",
-        "kind": "main",
-        "color": "#5c98ce",
-        "width": 245,
-        "sourceModule": "1",
-        "matchStatus": "Declared output only; link to consumers not resolved"
-      },
-      "measured": {
-        "width": 245,
-        "height": 76
-      },
-      "selected": false,
-      "dragging": false
-    },
-    {
-      "id": "artifact-1-2",
-      "type": "file",
-      "position": {
-        "x": -327.79556139400904,
-        "y": 142.58396418186882
-      },
-      "data": {
-        "title": "unknown.tsv",
-        "description": "\"data/processed/unknown.tsv\"",
-        "kind": "main",
-        "color": "#5c98ce",
-        "width": 245,
-        "sourceModule": "1",
-        "matchStatus": "Declared output only; link to consumers not resolved"
-      },
-      "measured": {
-        "width": 245,
-        "height": 76
-      },
-      "selected": false,
-      "dragging": false
-    },
-    {
-      "id": "artifact-1-3",
-      "type": "file",
-      "position": {
-        "x": -414.90575612714326,
-        "y": -180.22648692829387
-      },
-      "data": {
-        "title": "reference_guided.tsv",
-        "description": "\"data/processed/reference_guided.tsv\"",
-        "kind": "main",
-        "color": "#5c98ce",
-        "width": 245,
-        "sourceModule": "1",
-        "matchStatus": "Declared output only; link to consumers not resolved"
-      },
-      "measured": {
-        "width": 245,
-        "height": 76
       },
       "selected": false,
       "dragging": false
@@ -261,8 +184,8 @@
       "id": "artifact-1-4",
       "type": "file",
       "position": {
-        "x": -234.46320989422242,
-        "y": -311.1871044000063
+        "x": 247.53679010577696,
+        "y": -285.18710440000626
       },
       "data": {
         "title": "selected_assemblies.tsv",
@@ -284,8 +207,8 @@
       "id": "artifact-1-5",
       "type": "file",
       "position": {
-        "x": 505.82887542708454,
-        "y": 227.4355651207032
+        "x": 630.8288754270844,
+        "y": -477.56443487929596
       },
       "data": {
         "title": "selection_summary.tsv",
@@ -299,17 +222,537 @@
       "measured": {
         "width": 245,
         "height": 76
-      }
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "item-1792391054885-d79",
+      "type": "note",
+      "position": {
+        "x": 289.9930738184876,
+        "y": -663.7012205416862
+      },
+      "data": {
+        "title": "NCBI Database",
+        "description": "",
+        "kind": "secondary",
+        "color": "#fff2cc",
+        "width": 160
+      },
+      "measured": {
+        "width": 160,
+        "height": 90
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-2-5",
+      "type": "file",
+      "position": {
+        "x": -20.3545923825113,
+        "y": 136.15847455469094
+      },
+      "data": {
+        "title": "genome_qc.tsv",
+        "description": "f\"{RUN_PROCESSED_DIR}/genome_qc.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "2",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-2-6",
+      "type": "file",
+      "position": {
+        "x": 239.63462808565743,
+        "y": 136.78631537885298
+      },
+      "data": {
+        "title": "qc_passed_assemblies.tsv",
+        "description": "f\"{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 262,
+        "sourceModule": "2",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 262,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-2-7",
+      "type": "file",
+      "position": {
+        "x": 518.9249792764318,
+        "y": 137.58414302858154
+      },
+      "data": {
+        "title": "chromosomes",
+        "description": "DOWNLOAD_DIR + \"/chromosomes\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "2",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-3-3",
+      "type": "file",
+      "position": {
+        "x": 94.76432988055961,
+        "y": 572.9324618514827
+      },
+      "data": {
+        "title": "normalized_chromosomes",
+        "description": "DOWNLOAD_DIR + \"/normalized_chromosomes\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "3",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 90
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-4-4",
+      "type": "file",
+      "position": {
+        "x": 214.5424025919471,
+        "y": 1044.6658910845438
+      },
+      "data": {
+        "title": "protected(directory(PREPARED_DIR))",
+        "description": "protected(directory(PREPARED_DIR))",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 312,
+        "sourceModule": "4",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 312,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-3-2",
+      "type": "file",
+      "position": {
+        "x": 386.33407146192025,
+        "y": 579.9780195358288
+      },
+      "data": {
+        "title": "normalized_assemblies.tsv",
+        "description": "f\"{RUN_PROCESSED_DIR}/normalized_assemblies.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 275,
+        "sourceModule": "3",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 275,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "item-1792393235765-opm",
+      "type": "note",
+      "position": {
+        "x": 563.4725205247619,
+        "y": 962.6510376809581
+      },
+      "data": {
+        "title": "Package structure",
+        "description": "prepared/\n└── <species_id>/\n    └── <cohort_id>/\n        ├── manifest.json\n        ├── genomes.tsv\n        ├── preparation.tsv\n        └── genomes/\n            ├── GCF_....fna\n            ├── GCF_....fna\n            └── ...",
+        "kind": "secondary",
+        "color": "#fff2cc",
+        "width": 230,
+        "backgroundColor": "#fdf9ed"
+      },
+      "measured": {
+        "width": 230,
+        "height": 239
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-5-3",
+      "type": "file",
+      "position": {
+        "x": 204.20525568508117,
+        "y": 1602.326062774518
+      },
+      "data": {
+        "title": "comparisons.tsv",
+        "description": "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 333,
+        "sourceModule": "5",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 333,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-6-5",
+      "type": "file",
+      "position": {
+        "x": 209.50421472958766,
+        "y": 2042.9783191224647
+      },
+      "data": {
+        "title": "summary.tsv",
+        "description": "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/summary.tsv\"",
+        "kind": "main",
+        "color": "#9caaba",
+        "width": 323,
+        "sourceModule": "6",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 323,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "item-1792394223094-3lu",
+      "type": "note",
+      "position": {
+        "x": 565.8933963295628,
+        "y": 2029.5761174104452
+      },
+      "data": {
+        "title": "",
+        "description": "For each species a summary.tsv is generated, which can now be combined in the next module",
+        "kind": "secondary",
+        "color": "#fff2cc",
+        "width": 230
+      },
+      "measured": {
+        "width": 230,
+        "height": 106
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-7-0",
+      "type": "file",
+      "position": {
+        "x": 578.9153745701682,
+        "y": 2241.925350712163
+      },
+      "data": {
+        "title": "run_summary.tsv",
+        "description": "f\"{MODULE7_OUTDIR}/run_summary.tsv\"",
+        "kind": "secondary",
+        "color": "#9caaba",
+        "width": 245,
+        "sourceModule": "7",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-7-1",
+      "type": "file",
+      "position": {
+        "x": 680.2597286833145,
+        "y": 2479.292632013383
+      },
+      "data": {
+        "title": "species_summary.tsv",
+        "description": "f\"{MODULE7_OUTDIR}/species_summary.tsv\"",
+        "kind": "main",
+        "color": "#9caaba",
+        "width": 245,
+        "sourceModule": "7",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-7-2",
+      "type": "file",
+      "position": {
+        "x": -181.13977849463953,
+        "y": 2477.9581758152945
+      },
+      "data": {
+        "title": "candidate_families.tsv",
+        "description": "f\"{MODULE7_OUTDIR}/candidate_families.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "7",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-7-5",
+      "type": "file",
+      "position": {
+        "x": 366.9554897877115,
+        "y": 2478.992944294329
+      },
+      "data": {
+        "title": "cross_caller_associations.tsv",
+        "description": "f\"{MODULE7_OUTDIR}/cross_caller_associations.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 277,
+        "sourceModule": "7",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 277,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-7-6",
+      "type": "file",
+      "position": {
+        "x": 94.43828071394995,
+        "y": 2478.222317370162
+      },
+      "data": {
+        "title": "genome_sizes.tsv",
+        "description": "f\"{MODULE7_OUTDIR}/genome_sizes.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "7",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
     }
   ],
   "edges": [
     {
-      "id": "e-2-3-sm25pd",
+      "id": "e-1-artifact-1-4-xkxsog",
+      "source": "1",
+      "target": "artifact-1-4",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-1-artifact-1-5-9a0bes",
+      "source": "1",
+      "target": "artifact-1-5",
+      "sourceHandle": "r",
+      "targetHandle": "l",
+      "type": "default",
+      "data": {
+        "kind": "secondary"
+      },
+      "style": {
+        "stroke": "#9aa8b9",
+        "strokeWidth": 1.8,
+        "strokeDasharray": "5 5"
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-item-1792391054885-d79-1-m0zwu2",
+      "source": "item-1792391054885-d79",
+      "target": "1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-1-4-2-7l8ygn",
+      "source": "artifact-1-4",
+      "target": "2",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-2-artifact-2-5-x6gbzi",
       "source": "2",
+      "target": "artifact-2-5",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-2-artifact-2-6-hhyvo7",
+      "source": "2",
+      "target": "artifact-2-6",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-2-artifact-2-7-go09as",
+      "source": "2",
+      "target": "artifact-2-7",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-2-5-3-e9zxst",
+      "source": "artifact-2-5",
       "target": "3",
       "sourceHandle": "b",
       "targetHandle": "t",
-      "type": "smoothstep",
+      "type": "default",
       "data": {
         "kind": "presentation"
       },
@@ -322,15 +765,82 @@
         "color": "#6f87a6",
         "width": 13,
         "height": 13
-      }
+      },
+      "selected": false
     },
     {
-      "id": "e-3-4-34t9ap",
+      "id": "e-artifact-2-6-3-crgbmk",
+      "source": "artifact-2-6",
+      "target": "3",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-2-7-3-2fkslh",
+      "source": "artifact-2-7",
+      "target": "3",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-3-artifact-3-3-te632d",
       "source": "3",
+      "target": "artifact-3-3",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-3-3-4-loj6mw",
+      "source": "artifact-3-3",
       "target": "4",
       "sourceHandle": "b",
       "targetHandle": "t",
-      "type": "smoothstep",
+      "type": "default",
       "data": {
         "kind": "presentation"
       },
@@ -343,15 +853,82 @@
         "color": "#6f87a6",
         "width": 13,
         "height": 13
-      }
+      },
+      "selected": false
     },
     {
-      "id": "e-4-5-zf09a9",
+      "id": "e-4-artifact-4-4-flwes9",
       "source": "4",
+      "target": "artifact-4-4",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-3-artifact-3-2-6sqhvm",
+      "source": "3",
+      "target": "artifact-3-2",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-3-2-4-ru61sx",
+      "source": "artifact-3-2",
+      "target": "4",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-4-4-5-axz3mi",
+      "source": "artifact-4-4",
       "target": "5",
       "sourceHandle": "b",
       "targetHandle": "t",
-      "type": "smoothstep",
+      "type": "default",
       "data": {
         "kind": "presentation"
       },
@@ -364,15 +941,38 @@
         "color": "#6f87a6",
         "width": 13,
         "height": 13
-      }
+      },
+      "selected": false
     },
     {
-      "id": "e-5-6-0du0ez",
+      "id": "e-5-artifact-5-3-psrqnz",
       "source": "5",
+      "target": "artifact-5-3",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-5-3-6-uayubw",
+      "source": "artifact-5-3",
       "target": "6",
       "sourceHandle": "b",
       "targetHandle": "t",
-      "type": "smoothstep",
+      "type": "default",
       "data": {
         "kind": "presentation"
       },
@@ -385,12 +985,13 @@
         "color": "#6f87a6",
         "width": 13,
         "height": 13
-      }
+      },
+      "selected": false
     },
     {
-      "id": "e-6-7-729q6u",
+      "id": "e-6-artifact-6-5-55syxf",
       "source": "6",
-      "target": "7",
+      "target": "artifact-6-5",
       "sourceHandle": "b",
       "targetHandle": "t",
       "type": "smoothstep",
@@ -409,8 +1010,141 @@
       }
     },
     {
-      "id": "e-7-8-uk49fs",
+      "id": "e-artifact-6-5-7-l6jusz",
+      "source": "artifact-6-5",
+      "target": "7",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-7-artifact-7-0-p56j1g",
       "source": "7",
+      "target": "artifact-7-0",
+      "sourceHandle": "r",
+      "targetHandle": "l",
+      "type": "straight",
+      "data": {
+        "kind": "secondary"
+      },
+      "style": {
+        "stroke": "#9aa8b9",
+        "strokeWidth": 1.8,
+        "strokeDasharray": "5 5"
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-7-artifact-7-2-hxbm77",
+      "source": "7",
+      "target": "artifact-7-2",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-7-artifact-7-5-da4n4m",
+      "source": "7",
+      "target": "artifact-7-5",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-7-artifact-7-6-3ic92a",
+      "source": "7",
+      "target": "artifact-7-6",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-7-artifact-7-1-hjvxkx",
+      "source": "7",
+      "target": "artifact-7-1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "default",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      },
+      "selected": false
+    },
+    {
+      "id": "e-artifact-7-2-8-l657n8",
+      "source": "artifact-7-2",
       "target": "8",
       "sourceHandle": "b",
       "targetHandle": "t",
@@ -430,14 +1164,14 @@
       }
     },
     {
-      "id": "e-1-artifact-1-0-8jyvf8",
-      "source": "1",
-      "target": "artifact-1-0",
+      "id": "e-artifact-7-6-8-nbh0uk",
+      "source": "artifact-7-6",
+      "target": "8",
       "sourceHandle": "b",
       "targetHandle": "t",
       "type": "smoothstep",
       "data": {
-        "kind": "data"
+        "kind": "presentation"
       },
       "style": {
         "stroke": "#6f87a6",
@@ -451,14 +1185,14 @@
       }
     },
     {
-      "id": "e-1-artifact-1-1-tmptzs",
-      "source": "1",
-      "target": "artifact-1-1",
+      "id": "e-artifact-7-5-8-azenim",
+      "source": "artifact-7-5",
+      "target": "8",
       "sourceHandle": "b",
       "targetHandle": "t",
       "type": "smoothstep",
       "data": {
-        "kind": "data"
+        "kind": "presentation"
       },
       "style": {
         "stroke": "#6f87a6",
@@ -472,82 +1206,18 @@
       }
     },
     {
-      "id": "e-1-artifact-1-2-t0n05g",
-      "source": "1",
-      "target": "artifact-1-2",
+      "id": "e-artifact-7-1-8-4zoc1i",
+      "source": "artifact-7-1",
+      "target": "8",
       "sourceHandle": "b",
       "targetHandle": "t",
       "type": "smoothstep",
       "data": {
-        "kind": "data"
+        "kind": "presentation"
       },
       "style": {
         "stroke": "#6f87a6",
         "strokeWidth": 1.8
-      },
-      "markerEnd": {
-        "type": "arrowclosed",
-        "color": "#6f87a6",
-        "width": 13,
-        "height": 13
-      }
-    },
-    {
-      "id": "e-1-artifact-1-3-dyq7b6",
-      "source": "1",
-      "target": "artifact-1-3",
-      "sourceHandle": "b",
-      "targetHandle": "t",
-      "type": "smoothstep",
-      "data": {
-        "kind": "data"
-      },
-      "style": {
-        "stroke": "#6f87a6",
-        "strokeWidth": 1.8
-      },
-      "markerEnd": {
-        "type": "arrowclosed",
-        "color": "#6f87a6",
-        "width": 13,
-        "height": 13
-      }
-    },
-    {
-      "id": "e-1-artifact-1-4-xkxsog",
-      "source": "1",
-      "target": "artifact-1-4",
-      "sourceHandle": "b",
-      "targetHandle": "t",
-      "type": "smoothstep",
-      "data": {
-        "kind": "data"
-      },
-      "style": {
-        "stroke": "#6f87a6",
-        "strokeWidth": 1.8
-      },
-      "markerEnd": {
-        "type": "arrowclosed",
-        "color": "#6f87a6",
-        "width": 13,
-        "height": 13
-      }
-    },
-    {
-      "id": "e-1-artifact-1-5-9a0bes",
-      "source": "1",
-      "target": "artifact-1-5",
-      "sourceHandle": "r",
-      "targetHandle": "l",
-      "type": "smoothstep",
-      "data": {
-        "kind": "secondary"
-      },
-      "style": {
-        "stroke": "#9aa8b9",
-        "strokeWidth": 1.8,
-        "strokeDasharray": "5 5"
       },
       "markerEnd": {
         "type": "arrowclosed",
@@ -557,6 +1227,6 @@
       }
     }
   ],
-  "title": "IBP computational workflow",
-  "subtitle": "From genome assemblies to chromosomal inversion analysis"
+  "title": "Integrated Bioinformatics Project 2026 - Pipeline",
+  "subtitle": "Leen Al Radi - Wout Simoen - Abishek Kumar - Mathias Azevedo"
 }
