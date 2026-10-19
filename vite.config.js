@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
+﻿import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
-  base: process.env.VITE_PUBLIC_SITE === 'true' ? '/ibp-pipeline/' : '/',
-});
+  base: mode === 'public' ? '/ibp-pipeline/' : '/',
+}));
