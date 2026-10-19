@@ -1,0 +1,566 @@
+{
+  "project": "Integrated-Bioinformatics-Project-2026-feature-multispecies-integration",
+  "modules": [
+    {
+      "id": "1",
+      "title": "Assembly discovery & selection",
+      "description": "Discover, filter and select assemblies from public metadata.",
+      "ruleFile": "workflow/rules/module1.smk",
+      "rules": [
+        "fetch_metadata",
+        "filter_assemblies",
+        "select_multiassembly_species"
+      ],
+      "scripts": [
+        {
+          "name": "filter_assemblies.py",
+          "path": "src/ibp/module1/filter_assemblies.py",
+          "description": "Filter the prokaryotic metadata so we only retain long-read and de novo assemblies."
+        },
+        {
+          "name": "gtdb_species_table.py",
+          "path": "src/ibp/module1/gtdb_species_table.py",
+          "description": "Group complete RefSeq genomes into GTDB species clusters and prepare the species tree."
+        },
+        {
+          "name": "select_multiassembly_species.py",
+          "path": "src/ibp/module1/select_multiassembly_species.py",
+          "description": "Second filter for IBP data, select (reproducible manner) species that have multiple assemblies"
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "\"data/raw/all_prokaryotes_metadata.tsv\"",
+        "\"data/processed/candidates.tsv\"",
+        "\"data/processed/unknown.tsv\"",
+        "\"data/processed/reference_guided.tsv\"",
+        "\"data/processed/selected_assemblies.tsv\"",
+        "\"data/processed/selection_summary.tsv\""
+      ],
+      "declaredInputs": [
+        "\"data/raw/all_prokaryotes_metadata.tsv\"",
+        "\"data/processed/candidates.tsv\""
+      ],
+      "outputItems": [
+        {
+          "expression": "\"data/raw/all_prokaryotes_metadata.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "\"data/processed/candidates.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "\"data/processed/unknown.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "\"data/processed/reference_guided.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "\"data/processed/selected_assemblies.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "\"data/processed/selection_summary.tsv\"",
+          "consumedLater": false
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Download & quality control",
+      "description": "Download genome data and assess assembly quality.",
+      "ruleFile": "workflow/rules/module2.smk",
+      "rules": [
+        "write_accessions",
+        "download_genome_package",
+        "download_genomes",
+        "fetch_sequence_reports",
+        "genome_qc"
+      ],
+      "scripts": [
+        {
+          "name": "genome_qc.py",
+          "path": "src/ibp/module2/genome_qc.py",
+          "description": "Verify downloaded assemblies and extract their largest annotated chromosome."
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "f\"{RUN_PROCESSED_DIR}/selected_accessions.txt\"",
+        "DOWNLOAD_DIR + \"/genomes.zip\"",
+        "DOWNLOAD_DIR + \"/genomes\"",
+        "DOWNLOAD_DIR + \"/sequence_reports.zip\"",
+        "DOWNLOAD_DIR + \"/sequence_reports\"",
+        "f\"{RUN_PROCESSED_DIR}/genome_qc.tsv\"",
+        "f\"{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv\"",
+        "DOWNLOAD_DIR + \"/chromosomes\""
+      ],
+      "declaredInputs": [
+        "RUN_ASSEMBLIES",
+        "f\"{RUN_PROCESSED_DIR}/selected_accessions.txt\"",
+        "DOWNLOAD_DIR + \"/genomes.zip\"",
+        "\"src/ibp/module2/genome_qc.py\"",
+        "DOWNLOAD_DIR + \"/genomes\"",
+        "DOWNLOAD_DIR + \"/sequence_reports\""
+      ],
+      "outputItems": [
+        {
+          "expression": "f\"{RUN_PROCESSED_DIR}/selected_accessions.txt\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "DOWNLOAD_DIR + \"/genomes.zip\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "DOWNLOAD_DIR + \"/genomes\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "DOWNLOAD_DIR + \"/sequence_reports.zip\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "DOWNLOAD_DIR + \"/sequence_reports\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{RUN_PROCESSED_DIR}/genome_qc.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "f\"{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "DOWNLOAD_DIR + \"/chromosomes\"",
+          "consumedLater": true
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Chromosome normalization",
+      "description": "Determine topology and normalize accepted chromosomes.",
+      "ruleFile": "workflow/rules/module3.smk",
+      "rules": [
+        "fetch_chromosome_topology",
+        "normalize_chromosomes"
+      ],
+      "scripts": [
+        {
+          "name": "fetch_chromosome_topology.py",
+          "path": "src/ibp/module3/fetch_chromosome_topology.py",
+          "description": "Fetch chromosome topology for assemblies that passed genome QC."
+        },
+        {
+          "name": "normalize_chromosomes.py",
+          "path": "src/ibp/module3/normalize_chromosomes.py",
+          "description": "Normalize circular chromosomes to dnaA and retain linear chromosomes unchanged."
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "f\"{RUN_PROCESSED_DIR}/chromosome_topology.tsv\"",
+        "f\"{RUN_PROCESSED_DIR}/normalization.tsv\"",
+        "f\"{RUN_PROCESSED_DIR}/normalized_assemblies.tsv\"",
+        "DOWNLOAD_DIR + \"/normalized_chromosomes\""
+      ],
+      "declaredInputs": [
+        "\"src/ibp/module3/fetch_chromosome_topology.py\"",
+        "f\"{RUN_PROCESSED_DIR}/genome_qc.tsv\"",
+        "\"src/ibp/module3/normalize_chromosomes.py\"",
+        "f\"{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv\"",
+        "f\"{RUN_PROCESSED_DIR}/chromosome_topology.tsv\"",
+        "DOWNLOAD_DIR + \"/chromosomes\""
+      ],
+      "outputItems": [
+        {
+          "expression": "f\"{RUN_PROCESSED_DIR}/chromosome_topology.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{RUN_PROCESSED_DIR}/normalization.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "f\"{RUN_PROCESSED_DIR}/normalized_assemblies.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "DOWNLOAD_DIR + \"/normalized_chromosomes\"",
+          "consumedLater": false
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Reference & preparation",
+      "description": "Select species references and prepare comparison packages.",
+      "ruleFile": "workflow/rules/module4.smk",
+      "rules": [
+        "select_reference",
+        "select_references",
+        "prepare_packages",
+        "prepare_species"
+      ],
+      "scripts": [
+        {
+          "name": "prepare_species.py",
+          "path": "src/ibp/module4/prepare_species.py",
+          "description": "Publish one validated, portable genome package per species and cohort."
+        },
+        {
+          "name": "select_reference.py",
+          "path": "src/ibp/module4/select_reference.py",
+          "description": "Select the accepted chromosome with the lowest mean Mash distance per species."
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "REFERENCE_DIR + \"/reference.txt\"",
+        "REFERENCE_DIR + \"/reference_ranking.tsv\"",
+        "REFERENCE_DIR + \"/mash_distances.tsv\"",
+        "REFERENCE_DIR + \"/chromosomes.msh\"",
+        "protected(directory(PREPARED_DIR))"
+      ],
+      "declaredInputs": [
+        "\"src/ibp/module4/select_reference.py\"",
+        "\"src/ibp/module3/normalize_chromosomes.py\"",
+        "f\"{RUN_PROCESSED_DIR}/normalized_assemblies.tsv\"",
+        "f\"{RUN_PROCESSED_DIR}/normalization.tsv\"",
+        "reference_fastas",
+        "reference_targets",
+        "prepared_targets",
+        "\"src/ibp/module4/prepare_species.py\"",
+        "RUN_ASSEMBLIES",
+        "f\"{RUN_PROCESSED_DIR}/genome_qc.tsv\"",
+        "SPECIES_TABLE",
+        "lambda wildcards: REFERENCE_DIR.format(species=wildcards.species.rsplit(\"_\", 1)[-1]) + \"/reference.txt\""
+      ],
+      "outputItems": [
+        {
+          "expression": "REFERENCE_DIR + \"/reference.txt\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "REFERENCE_DIR + \"/reference_ranking.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "REFERENCE_DIR + \"/mash_distances.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "REFERENCE_DIR + \"/chromosomes.msh\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "protected(directory(PREPARED_DIR))",
+          "consumedLater": false
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Inversion calling",
+      "description": "Plan genome comparisons and run inversion detection.",
+      "ruleFile": "workflow/rules/module5.smk",
+      "rules": [
+        "module5_complete",
+        "inversion_pair",
+        "module5_cohort_report"
+      ],
+      "scripts": [
+        {
+          "name": "leen.py",
+          "path": "src/ibp/module5/leen.py",
+          "description": "Run the existing Leen algorithm on one chromosome pair."
+        },
+        {
+          "name": "leen_core.py",
+          "path": "src/ibp/module5/leen_core.py",
+          "description": "Existing Leen inversion algorithm."
+        },
+        {
+          "name": "plan_comparisons.py",
+          "path": "src/ibp/module5/plan_comparisons.py",
+          "description": "Plan independent inversion-calling comparisons."
+        },
+        {
+          "name": "results.py",
+          "path": "src/ibp/module5/results.py",
+          "description": "Shared, caller-independent inversion output schema."
+        },
+        {
+          "name": "syri.py",
+          "path": "src/ibp/module5/syri.py",
+          "description": "Run minimap2 and SyRI for a single chromosome comparison."
+        },
+        {
+          "name": "validate_input.py",
+          "path": "src/ibp/module5/validate_input.py",
+          "description": "Read and validate a Module 4 species/cohort package."
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/status.json\"",
+        "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/calls.tsv\"",
+        "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/inversions.tsv\"",
+        "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv\""
+      ],
+      "declaredInputs": [
+        "module5_complete_targets",
+        "module5_package",
+        "lambda wc: str(PREPARED / wc.species_id / wc.cohort_id / \"manifest.json\")",
+        "lambda wc: str(PREPARED / wc.species_id / wc.cohort_id / \"genomes.tsv\")",
+        "lambda wc: str(module5_job(wc).reference_fasta)",
+        "lambda wc: str(module5_job(wc).query_fasta)",
+        "module5_report_inputs"
+      ],
+      "outputItems": [
+        {
+          "expression": "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/status.json\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/calls.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/inversions.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv\"",
+          "consumedLater": true
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Inversion catalogue",
+      "description": "Consolidate candidate inversion events.",
+      "ruleFile": "workflow/rules/module6.smk",
+      "rules": [
+        "module6_complete",
+        "module6_catalogue"
+      ],
+      "scripts": [
+        {
+          "name": "catalog.py",
+          "path": "src/ibp/module6/catalog.py",
+          "description": "Tree-free, caller-separated inversion family catalogue."
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/candidate_families.tsv\"",
+        "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/call_family_map.tsv\"",
+        "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/tip_states.tsv\"",
+        "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/cross_caller_associations.tsv\"",
+        "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/genome_sizes.tsv\"",
+        "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/summary.tsv\""
+      ],
+      "declaredInputs": [
+        "module6_complete_targets",
+        "f\"{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv\"",
+        "module5_package",
+        "lambda wc: module6_package_file(wc, \"manifest.json\")",
+        "lambda wc: module6_package_file(wc, \"genomes.tsv\")",
+        "\"src/ibp/module6/catalog.py\""
+      ],
+      "outputItems": [
+        {
+          "expression": "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/candidate_families.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/call_family_map.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/tip_states.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/cross_caller_associations.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/genome_sizes.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/summary.tsv\"",
+          "consumedLater": false
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Cross-species aggregation",
+      "description": "Aggregate inversion results across studied species.",
+      "ruleFile": "workflow/rules/module7.smk",
+      "rules": [
+        "module7_complete",
+        "module7_aggregate"
+      ],
+      "scripts": [
+        {
+          "name": "aggregate.py",
+          "path": "src/ibp/module7/aggregate.py",
+          "description": "Aggregate Module 6 inversion-only catalogues across species."
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "f\"{MODULE7_OUTDIR}/run_summary.tsv\"",
+        "f\"{MODULE7_OUTDIR}/species_summary.tsv\"",
+        "f\"{MODULE7_OUTDIR}/candidate_families.tsv\"",
+        "f\"{MODULE7_OUTDIR}/call_family_map.tsv\"",
+        "f\"{MODULE7_OUTDIR}/tip_states.tsv\"",
+        "f\"{MODULE7_OUTDIR}/cross_caller_associations.tsv\"",
+        "f\"{MODULE7_OUTDIR}/genome_sizes.tsv\""
+      ],
+      "declaredInputs": [
+        "f\"{MODULE7_OUTDIR}/run_summary.tsv\"",
+        "module6_complete_targets",
+        "\"src/ibp/module7/aggregate.py\""
+      ],
+      "outputItems": [
+        {
+          "expression": "f\"{MODULE7_OUTDIR}/run_summary.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "f\"{MODULE7_OUTDIR}/species_summary.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "f\"{MODULE7_OUTDIR}/candidate_families.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "f\"{MODULE7_OUTDIR}/call_family_map.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "f\"{MODULE7_OUTDIR}/tip_states.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE7_OUTDIR}/cross_caller_associations.tsv\"",
+          "consumedLater": true
+        },
+        {
+          "expression": "f\"{MODULE7_OUTDIR}/genome_sizes.tsv\"",
+          "consumedLater": true
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Agreement & analysis",
+      "description": "Evaluate caller agreement and produce final analyses.",
+      "ruleFile": "workflow/rules/module8.smk",
+      "rules": [
+        "module8_complete",
+        "module8_analyze"
+      ],
+      "scripts": [
+        {
+          "name": "agreement.py",
+          "path": "src/ibp/module8/agreement.py",
+          "description": "Auditable, provisional Leen/SyRI agreement from Module 7's exact call IDs."
+        },
+        {
+          "name": "analyze.py",
+          "path": "src/ibp/module8/analyze.py",
+          "description": "Descriptive inversion-only analyses and figures for Module 7 outputs."
+        }
+      ],
+      "sourcePresent": true,
+      "declaredOutputs": [
+        "f\"{MODULE8_OUTDIR}/analysis_summary.tsv\"",
+        "f\"{MODULE8_OUTDIR}/species_metrics.tsv\"",
+        "f\"{MODULE8_OUTDIR}/caller_agreement.tsv\"",
+        "f\"{MODULE8_OUTDIR}/caller_agreement_calls.tsv\"",
+        "f\"{MODULE8_OUTDIR}/caller_agreement_families.tsv\"",
+        "f\"{MODULE8_OUTDIR}/figures/family_lengths.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/families_per_callable_genome.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/caller_agreement.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/agreement_family_lengths.png\""
+      ],
+      "declaredInputs": [
+        "f\"{MODULE8_OUTDIR}/analysis_summary.tsv\"",
+        "f\"{MODULE8_OUTDIR}/species_metrics.tsv\"",
+        "f\"{MODULE8_OUTDIR}/caller_agreement.tsv\"",
+        "f\"{MODULE8_OUTDIR}/caller_agreement_calls.tsv\"",
+        "f\"{MODULE8_OUTDIR}/caller_agreement_families.tsv\"",
+        "f\"{MODULE8_OUTDIR}/figures/family_lengths.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/families_per_callable_genome.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/caller_agreement.png\"",
+        "f\"{MODULE8_OUTDIR}/figures/agreement_family_lengths.png\"",
+        "f\"{MODULE7_OUTDIR}/run_summary.tsv\"",
+        "f\"{MODULE7_OUTDIR}/species_summary.tsv\"",
+        "f\"{MODULE7_OUTDIR}/candidate_families.tsv\"",
+        "f\"{MODULE7_OUTDIR}/genome_sizes.tsv\"",
+        "f\"{MODULE7_OUTDIR}/call_family_map.tsv\"",
+        "f\"{MODULE7_OUTDIR}/cross_caller_associations.tsv\"",
+        "\"src/ibp/module8/agreement.py\"",
+        "\"src/ibp/module8/analyze.py\""
+      ],
+      "outputItems": [
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/analysis_summary.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/species_metrics.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/caller_agreement.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/caller_agreement_calls.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/caller_agreement_families.tsv\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/figures/family_lengths.png\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/figures/families_per_callable_genome.png\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/figures/caller_agreement.png\"",
+          "consumedLater": false
+        },
+        {
+          "expression": "f\"{MODULE8_OUTDIR}/figures/agreement_family_lengths.png\"",
+          "consumedLater": false
+        }
+      ]
+    }
+  ],
+  "graphKind": "conceptual-module-overview",
+  "notice": "Connections illustrate scientific stage progression, not resolved Snakemake job dependencies."
+}

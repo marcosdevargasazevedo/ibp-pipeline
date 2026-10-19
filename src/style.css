@@ -1,0 +1,42 @@
+:root{font-family:Inter,ui-sans-serif,system-ui,Arial,sans-serif;color:#253854;background:#f7f9fc;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,input,textarea,select{font:inherit}.v3{width:100vw;height:100vh;position:relative;overflow:hidden}.canvas{position:absolute;inset:0}.react-flow__node{transition:box-shadow .15s}.module-card{--accent:#5b83ed;border:1px solid #dbe4f1;border-top:4px solid var(--accent);background:white;border-radius:13px;padding:19px 20px 14px;box-shadow:0 7px 25px #304c7514;min-height:148px}.module-card.selected,.file-card.selected,.note-card.selected{outline:2px solid #547bd7;box-shadow:0 10px 30px #304c7530}.module-card .number{font-weight:800;font-size:11px;color:var(--accent)}.module-card h3{margin:10px 0 8px;line-height:1.28;overflow-wrap:anywhere}.module-card p{font-size:11px;line-height:1.5;color:#728299;margin:0;white-space:pre-wrap}.card-footer{display:block;font-size:9px;color:#a2afc0;border-top:1px solid #edf1f5;padding-top:9px;margin-top:14px}.file-card{--accent:#719ac4;background:#edf5ff;border:1px solid var(--accent);border-radius:9px;padding:12px 15px;box-shadow:0 4px 15px #304c7512}.file-card.secondary{background:#f4f6f9;border-style:dashed}.file-heading{display:flex;align-items:flex-start;gap:8px;color:#2a4a70;font-size:12px;overflow-wrap:anywhere}.file-heading svg{flex:none}.file-card p{color:#76869b;font-size:10px;line-height:1.4;word-break:break-word;max-height:60px;overflow:hidden}.note-card{border:1px solid #b7b4a1;border-radius:9px;padding:16px;min-height:90px}.note-card strong{font-size:14px}.note-card p{font-size:12px;color:#5b616a;white-space:pre-wrap}.port{width:10px!important;height:10px!important;background:#6486b5!important;border:2px solid white!important;box-shadow:0 0 0 1px #b4c5df;opacity:0;pointer-events:none;transition:opacity .12s ease}
+.editor-mode .react-flow__node:hover .port,.editor-mode .react-flow__node.selected .port{opacity:1;pointer-events:auto}
+.presentation-mode .port{opacity:0!important;pointer-events:none!important}
+.presentation-mode .react-flow__node{cursor:default!important}
+.presentation-mode .module-card.selected,.presentation-mode .file-card.selected,.presentation-mode .note-card.selected{outline:none;box-shadow:0 7px 25px #304c7514}
+.presentation-mode .card-footer{display:none}
+.presentation-mode .react-flow__node:focus{outline:none!important}
+.presentation-mode .react-flow__edge{pointer-events:none}
+.presentation-mode .react-flow__pane{cursor:grab}
+.presentation-mode .react-flow__pane:active{cursor:grabbing}
+.presentation-mode .floating-title h1{margin:0;background:#ffffffcf;border-radius:8px;padding:7px 11px;color:#223453;letter-spacing:-.6px;font-size:23px;line-height:1.5}
+.presentation-mode .floating-title p{margin:0;background:#ffffffcf;border-radius:8px;padding:6px 11px;color:#7588a3;font-size:12px}
+.presentation-exit{position:absolute;right:18px;top:16px;z-index:8;display:flex;gap:6px;opacity:0;transition:opacity .16s}
+.presentation-exit:hover,.presentation-exit:focus-within{opacity:1}
+.presentation-exit button{cursor:pointer;padding:9px 13px;border:1px solid #dbe4f1;border-radius:8px;background:#fff;color:#425b7b;font-size:12px;box-shadow:0 4px 15px #304c7517}
+.presentation-mode .react-flow__selection,.presentation-mode .react-flow__nodesselection-rect{display:none!important}
+.floating-tools button.present-button{color:#315eb1;background:#edf3ff;font-weight:650}
+.floating-title{position:absolute;left:28px;top:20px;z-index:3;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none}.floating-title input{pointer-events:auto;min-width:380px;max-width:calc(100vw - 80px);width:36vw;border:1px solid transparent;background:#ffffffde;backdrop-filter:blur(8px);font-weight:780;font-size:23px;letter-spacing:-.7px;border-radius:8px;color:#223453;padding:7px 11px;outline:0}.floating-title input:focus{border-color:#97add7}.floating-title .subtitle{font-size:12px;font-weight:400;letter-spacing:0;color:#7588a3}.floating-tools{position:absolute;top:24px;right:24px;z-index:4;display:flex;gap:2px;align-items:center;padding:6px;background:#ffffffed;border:1px solid #e2e9f3;border-radius:12px;box-shadow:0 8px 22px #304c751d}.floating-tools button,.tool-upload{border:0;background:transparent;color:#5c718f;display:flex;align-items:center;gap:5px;border-radius:7px;padding:9px;cursor:pointer;font-size:12px}.floating-tools button:hover,.tool-upload:hover,.floating-tools button.active{background:#eaf0fc;color:#335fbb}.floating-tools button:disabled{opacity:.3}.divider{height:22px;width:1px;background:#dae3ef;margin:0 3px}.inspector{position:absolute;right:22px;top:87px;bottom:25px;width:332px;z-index:5;background:white;border:1px solid #e0e7f1;border-radius:13px;padding:20px;box-shadow:0 12px 32px #273f6528;overflow:auto}.inspector-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;font-size:17px}.inspector-top button{border:0;background:#eef2f7;border-radius:7px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer}.inspector label{display:flex;flex-direction:column;gap:7px;color:#5c6d85;font-size:11px;font-weight:650;margin:0 0 18px}.inspector input:not([type=range]),.inspector select,.inspector textarea{border:1px solid #dbe4f0;border-radius:7px;padding:9px;color:#263957;background:#fff;font-size:12px;min-width:0}.inspector input[type=color]{height:40px;padding:4px}.inspector h4{font-size:12px;margin:24px 0 9px}.names{font-family:Consolas,monospace;color:#5c6d85;font-size:10px;overflow-wrap:anywhere}.names>div{padding:7px;border-bottom:1px solid #edf1f5}.action,.delete{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid #c9d8f1;border-radius:8px;padding:12px;background:#edf3ff;color:#3562b2;cursor:pointer;font-size:12px;font-weight:650}.delete{color:#b34a5c;background:#fff4f5;border-color:#efd0d5;margin-top:25px}.small-text{font-size:11px;line-height:1.6;color:#7c8a9f}.hint-label{position:absolute;bottom:14px;left:80px;color:#9daabb;font-size:10px;pointer-events:none}.toast{position:absolute;bottom:50px;right:30px;border-radius:9px;background:#233f64;color:white;padding:12px;z-index:10;font-size:12px;cursor:pointer;max-width:340px}.react-flow__attribution{display:none}@media(max-width:1100px){.floating-title{top:76px}.floating-title input{font-size:18px;width:350px}.floating-tools{right:10px;top:10px}.inspector{top:140px}}@media(max-width:660px){.floating-tools{left:5px;right:5px;overflow-x:auto}.floating-tools button span{display:none}.inspector{top:130px;right:5px;width:min(320px,90vw)}.floating-title input{min-width:240px;width:300px}.hint-label{display:none}}
+
+/* V5: one centered handle per side, larger invisible interaction target */
+.port{width:13px!important;height:13px!important;z-index:3;transform:translate(-50%,-50%)}
+.react-flow__handle-top.port{left:50%!important;top:0!important}
+.react-flow__handle-bottom.port{left:50%!important;top:100%!important;transform:translate(-50%,50%)}
+.react-flow__handle-left.port{left:0!important;top:50%!important}
+.react-flow__handle-right.port{left:100%!important;top:50%!important;transform:translate(50%,-50%)}
+.editor-mode .react-flow__node:hover .port,.editor-mode .react-flow__node.selected .port{opacity:1;pointer-events:all}
+.editor-mode .react-flow__node .port:hover{width:20px!important;height:20px!important;background:#3769c8!important}
+
+/* V7: presentation-first, read-only node inspector */
+.presentation-exit{opacity:1;top:17px;right:18px}
+.presentation-exit button{display:flex;align-items:center;gap:7px;font-weight:600}
+.presentation-mode .react-flow__node{cursor:pointer!important}
+.view-inspector{top:72px;bottom:20px}
+.view-inspector h2{font-size:18px;line-height:1.35;margin:0 0 8px;overflow-wrap:anywhere}
+.view-description{font-size:12px;line-height:1.6;color:#637895;white-space:pre-wrap}
+.view-inspector .names small{display:block;color:#91a0b5;font-size:9px;margin-top:4px}
+.view-readonly{color:#8697af;font-size:10px;margin-top:28px;border-top:1px solid #e6ecf5;padding-top:14px}
+
+/* V8: prevent the black native-fullscreen background and preserve canvas colors. */
+html,body,#root,.v3,.v3:fullscreen,.v3:-webkit-full-screen { background:#f7f9fc!important; }
+.v3:fullscreen,.v3:-webkit-full-screen { width:100vw;height:100vh; }
+.v3:fullscreen .canvas,.v3:fullscreen .react-flow,.v3:-webkit-full-screen .canvas { background:#f7f9fc!important; }

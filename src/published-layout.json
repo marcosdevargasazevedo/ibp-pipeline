@@ -1,0 +1,562 @@
+{
+  "version": 3,
+  "nodes": [
+    {
+      "id": "1",
+      "type": "module",
+      "position": {
+        "x": 191.73782629335815,
+        "y": -493.47717631701664
+      },
+      "data": {
+        "title": "Assembly discovery & selection",
+        "description": "Discover, filter and select assemblies from public metadata.",
+        "color": "#5b83ed",
+        "num": 1,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 187
+      },
+      "selected": true,
+      "dragging": false
+    },
+    {
+      "id": "2",
+      "type": "module",
+      "position": {
+        "x": 164.19571000987116,
+        "y": 84.09331597487224
+      },
+      "data": {
+        "title": "Download & quality control",
+        "description": "Download genome data and assess assembly quality.",
+        "color": "#4799ce",
+        "num": 2,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 166
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "3",
+      "type": "module",
+      "position": {
+        "x": 0,
+        "y": 315
+      },
+      "data": {
+        "title": "Chromosome normalization",
+        "description": "Determine topology and normalize accepted chromosomes.",
+        "color": "#45b3ad",
+        "num": 3,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 166
+      }
+    },
+    {
+      "id": "4",
+      "type": "module",
+      "position": {
+        "x": 510,
+        "y": 315
+      },
+      "data": {
+        "title": "Reference & preparation",
+        "description": "Select species references and prepare comparison packages.",
+        "color": "#6db28c",
+        "num": 4,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 166
+      }
+    },
+    {
+      "id": "5",
+      "type": "module",
+      "position": {
+        "x": 0,
+        "y": 630
+      },
+      "data": {
+        "title": "Inversion calling",
+        "description": "Plan genome comparisons and run inversion detection.",
+        "color": "#d2a45b",
+        "num": 5,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 166
+      }
+    },
+    {
+      "id": "6",
+      "type": "module",
+      "position": {
+        "x": 510,
+        "y": 630
+      },
+      "data": {
+        "title": "Inversion catalogue",
+        "description": "Consolidate candidate inversion events.",
+        "color": "#b98ad5",
+        "num": 6,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 150
+      }
+    },
+    {
+      "id": "7",
+      "type": "module",
+      "position": {
+        "x": 0,
+        "y": 945
+      },
+      "data": {
+        "title": "Cross-species aggregation",
+        "description": "Aggregate inversion results across studied species.",
+        "color": "#a894e8",
+        "num": 7,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 166
+      }
+    },
+    {
+      "id": "8",
+      "type": "module",
+      "position": {
+        "x": 510,
+        "y": 945
+      },
+      "data": {
+        "title": "Agreement & analysis",
+        "description": "Evaluate caller agreement and produce final analyses.",
+        "color": "#ec8fab",
+        "num": 8,
+        "width": 265,
+        "fontSize": 16
+      },
+      "measured": {
+        "width": 265,
+        "height": 166
+      }
+    },
+    {
+      "id": "artifact-1-0",
+      "type": "file",
+      "position": {
+        "x": -120.39033583892771,
+        "y": -91.19328995135069
+      },
+      "data": {
+        "title": "all_prokaryotes_metadata.tsv",
+        "description": "\"data/raw/all_prokaryotes_metadata.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "1",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-1-1",
+      "type": "file",
+      "position": {
+        "x": -140.0938322666604,
+        "y": 78.58366963180482
+      },
+      "data": {
+        "title": "candidates.tsv",
+        "description": "\"data/processed/candidates.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "1",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-1-2",
+      "type": "file",
+      "position": {
+        "x": -327.79556139400904,
+        "y": 142.58396418186882
+      },
+      "data": {
+        "title": "unknown.tsv",
+        "description": "\"data/processed/unknown.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "1",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-1-3",
+      "type": "file",
+      "position": {
+        "x": -414.90575612714326,
+        "y": -180.22648692829387
+      },
+      "data": {
+        "title": "reference_guided.tsv",
+        "description": "\"data/processed/reference_guided.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "1",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-1-4",
+      "type": "file",
+      "position": {
+        "x": -234.46320989422242,
+        "y": -311.1871044000063
+      },
+      "data": {
+        "title": "selected_assemblies.tsv",
+        "description": "\"data/processed/selected_assemblies.tsv\"",
+        "kind": "main",
+        "color": "#5c98ce",
+        "width": 245,
+        "sourceModule": "1",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "artifact-1-5",
+      "type": "file",
+      "position": {
+        "x": 505.82887542708454,
+        "y": 227.4355651207032
+      },
+      "data": {
+        "title": "selection_summary.tsv",
+        "description": "\"data/processed/selection_summary.tsv\"",
+        "kind": "secondary",
+        "color": "#9caaba",
+        "width": 245,
+        "sourceModule": "1",
+        "matchStatus": "Declared output only; link to consumers not resolved"
+      },
+      "measured": {
+        "width": 245,
+        "height": 76
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-2-3-sm25pd",
+      "source": "2",
+      "target": "3",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-3-4-34t9ap",
+      "source": "3",
+      "target": "4",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-4-5-zf09a9",
+      "source": "4",
+      "target": "5",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-5-6-0du0ez",
+      "source": "5",
+      "target": "6",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-6-7-729q6u",
+      "source": "6",
+      "target": "7",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-7-8-uk49fs",
+      "source": "7",
+      "target": "8",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "presentation"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-1-artifact-1-0-8jyvf8",
+      "source": "1",
+      "target": "artifact-1-0",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-1-artifact-1-1-tmptzs",
+      "source": "1",
+      "target": "artifact-1-1",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-1-artifact-1-2-t0n05g",
+      "source": "1",
+      "target": "artifact-1-2",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-1-artifact-1-3-dyq7b6",
+      "source": "1",
+      "target": "artifact-1-3",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-1-artifact-1-4-xkxsog",
+      "source": "1",
+      "target": "artifact-1-4",
+      "sourceHandle": "b",
+      "targetHandle": "t",
+      "type": "smoothstep",
+      "data": {
+        "kind": "data"
+      },
+      "style": {
+        "stroke": "#6f87a6",
+        "strokeWidth": 1.8
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "id": "e-1-artifact-1-5-9a0bes",
+      "source": "1",
+      "target": "artifact-1-5",
+      "sourceHandle": "r",
+      "targetHandle": "l",
+      "type": "smoothstep",
+      "data": {
+        "kind": "secondary"
+      },
+      "style": {
+        "stroke": "#9aa8b9",
+        "strokeWidth": 1.8,
+        "strokeDasharray": "5 5"
+      },
+      "markerEnd": {
+        "type": "arrowclosed",
+        "color": "#6f87a6",
+        "width": 13,
+        "height": 13
+      }
+    }
+  ],
+  "title": "IBP computational workflow",
+  "subtitle": "From genome assemblies to chromosomal inversion analysis"
+}

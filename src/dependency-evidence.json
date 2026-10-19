@@ -1,0 +1,1269 @@
+{
+  "schemaVersion": 1,
+  "evidence": "Static analysis of rule input/output/log declarations. Symbolic path matches are not proof of executed DAG edges. Dynamic input functions and checkpoints remain unresolved.",
+  "rules": [
+    {
+      "name": "fetch_metadata",
+      "module": "1",
+      "kind": "rule",
+      "inputs": [],
+      "outputs": [
+        "'data/raw/all_prokaryotes_metadata.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module1.smk"
+    },
+    {
+      "name": "filter_assemblies",
+      "module": "1",
+      "kind": "rule",
+      "inputs": [
+        "'data/raw/all_prokaryotes_metadata.tsv'"
+      ],
+      "outputs": [
+        "'data/processed/candidates.tsv'",
+        "'data/processed/unknown.tsv'",
+        "'data/processed/reference_guided.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module1.smk"
+    },
+    {
+      "name": "select_multiassembly_species",
+      "module": "1",
+      "kind": "rule",
+      "inputs": [
+        "'data/processed/candidates.tsv'"
+      ],
+      "outputs": [
+        "'data/processed/selected_assemblies.tsv'",
+        "'data/processed/selection_summary.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module1.smk"
+    },
+    {
+      "name": "write_accessions",
+      "module": "2",
+      "kind": "rule",
+      "inputs": [
+        "RUN_ASSEMBLIES"
+      ],
+      "outputs": [
+        "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module2.smk"
+    },
+    {
+      "name": "download_genome_package",
+      "module": "2",
+      "kind": "rule",
+      "inputs": [
+        "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'"
+      ],
+      "outputs": [
+        "DOWNLOAD_DIR + '/genomes.zip'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module2.smk"
+    },
+    {
+      "name": "download_genomes",
+      "module": "2",
+      "kind": "rule",
+      "inputs": [
+        "DOWNLOAD_DIR + '/genomes.zip'",
+        "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'"
+      ],
+      "outputs": [
+        "DOWNLOAD_DIR + '/genomes'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module2.smk"
+    },
+    {
+      "name": "fetch_sequence_reports",
+      "module": "2",
+      "kind": "rule",
+      "inputs": [
+        "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'"
+      ],
+      "outputs": [
+        "DOWNLOAD_DIR + '/sequence_reports.zip'",
+        "directory(DOWNLOAD_DIR + '/sequence_reports')"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module2.smk"
+    },
+    {
+      "name": "genome_qc",
+      "module": "2",
+      "kind": "rule",
+      "inputs": [
+        "'src/ibp/module2/genome_qc.py'",
+        "RUN_ASSEMBLIES",
+        "DOWNLOAD_DIR + '/genomes'",
+        "DOWNLOAD_DIR + '/sequence_reports'"
+      ],
+      "outputs": [
+        "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'",
+        "f'{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv'",
+        "directory(DOWNLOAD_DIR + '/chromosomes')"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module2.smk"
+    },
+    {
+      "name": "fetch_chromosome_topology",
+      "module": "3",
+      "kind": "rule",
+      "inputs": [
+        "'src/ibp/module3/fetch_chromosome_topology.py'",
+        "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'"
+      ],
+      "outputs": [
+        "f'{RUN_PROCESSED_DIR}/chromosome_topology.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module3.smk"
+    },
+    {
+      "name": "normalize_chromosomes",
+      "module": "3",
+      "kind": "checkpoint",
+      "inputs": [
+        "'src/ibp/module3/normalize_chromosomes.py'",
+        "f'{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv'",
+        "f'{RUN_PROCESSED_DIR}/chromosome_topology.tsv'",
+        "DOWNLOAD_DIR + '/chromosomes'"
+      ],
+      "outputs": [
+        "f'{RUN_PROCESSED_DIR}/normalization.tsv'",
+        "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'",
+        "directory(DOWNLOAD_DIR + '/normalized_chromosomes')"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module3.smk"
+    },
+    {
+      "name": "select_reference",
+      "module": "4",
+      "kind": "rule",
+      "inputs": [
+        "'src/ibp/module4/select_reference.py'",
+        "'src/ibp/module3/normalize_chromosomes.py'",
+        "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'",
+        "f'{RUN_PROCESSED_DIR}/normalization.tsv'",
+        "reference_fastas"
+      ],
+      "outputs": [
+        "REFERENCE_DIR + '/reference.txt'",
+        "REFERENCE_DIR + '/reference_ranking.tsv'",
+        "REFERENCE_DIR + '/mash_distances.tsv'",
+        "REFERENCE_DIR + '/chromosomes.msh'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module4.smk"
+    },
+    {
+      "name": "select_references",
+      "module": "4",
+      "kind": "rule",
+      "inputs": [
+        "reference_targets"
+      ],
+      "outputs": [],
+      "logs": [],
+      "source": "workflow/rules/module4.smk"
+    },
+    {
+      "name": "prepare_packages",
+      "module": "4",
+      "kind": "rule",
+      "inputs": [
+        "prepared_targets"
+      ],
+      "outputs": [],
+      "logs": [],
+      "source": "workflow/rules/module4.smk"
+    },
+    {
+      "name": "prepare_species",
+      "module": "4",
+      "kind": "checkpoint",
+      "inputs": [
+        "'src/ibp/module4/prepare_species.py'",
+        "'src/ibp/module3/normalize_chromosomes.py'",
+        "RUN_ASSEMBLIES",
+        "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'",
+        "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'",
+        "f'{RUN_PROCESSED_DIR}/normalization.tsv'",
+        "SPECIES_TABLE",
+        "lambda wildcards: REFERENCE_DIR.format(species=wildcards.species.rsplit('_', 1)[-1]) + '/reference.txt'",
+        "reference_fastas"
+      ],
+      "outputs": [
+        "protected(directory(PREPARED_DIR))"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module4.smk"
+    },
+    {
+      "name": "module5_complete",
+      "module": "5",
+      "kind": "rule",
+      "inputs": [
+        "module5_complete_targets"
+      ],
+      "outputs": [],
+      "logs": [],
+      "source": "workflow/rules/module5.smk"
+    },
+    {
+      "name": "inversion_pair",
+      "module": "5",
+      "kind": "rule",
+      "inputs": [
+        "module5_package",
+        "lambda wc: str(PREPARED / wc.species_id / wc.cohort_id / 'manifest.json')",
+        "lambda wc: str(PREPARED / wc.species_id / wc.cohort_id / 'genomes.tsv')",
+        "lambda wc: str(module5_job(wc).reference_fasta)",
+        "lambda wc: str(module5_job(wc).query_fasta)"
+      ],
+      "outputs": [
+        "f'{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/status.json'",
+        "f'{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/calls.tsv'",
+        "f'{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/inversions.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module5.smk"
+    },
+    {
+      "name": "module5_cohort_report",
+      "module": "5",
+      "kind": "rule",
+      "inputs": [
+        "module5_report_inputs"
+      ],
+      "outputs": [
+        "f'{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module5.smk"
+    },
+    {
+      "name": "module6_complete",
+      "module": "6",
+      "kind": "rule",
+      "inputs": [
+        "module6_complete_targets"
+      ],
+      "outputs": [],
+      "logs": [],
+      "source": "workflow/rules/module6.smk"
+    },
+    {
+      "name": "module6_catalogue",
+      "module": "6",
+      "kind": "rule",
+      "inputs": [
+        "f'{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv'",
+        "module5_package",
+        "lambda wc: module6_package_file(wc, 'manifest.json')",
+        "lambda wc: module6_package_file(wc, 'genomes.tsv')",
+        "'src/ibp/module6/catalog.py'"
+      ],
+      "outputs": [
+        "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/candidate_families.tsv'",
+        "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/call_family_map.tsv'",
+        "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/tip_states.tsv'",
+        "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/cross_caller_associations.tsv'",
+        "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/genome_sizes.tsv'",
+        "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/summary.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module6.smk"
+    },
+    {
+      "name": "module7_complete",
+      "module": "7",
+      "kind": "rule",
+      "inputs": [
+        "f'{MODULE7_OUTDIR}/run_summary.tsv'"
+      ],
+      "outputs": [],
+      "logs": [],
+      "source": "workflow/rules/module7.smk"
+    },
+    {
+      "name": "module7_aggregate",
+      "module": "7",
+      "kind": "rule",
+      "inputs": [
+        "module6_complete_targets",
+        "'src/ibp/module7/aggregate.py'"
+      ],
+      "outputs": [
+        "f'{MODULE7_OUTDIR}/run_summary.tsv'",
+        "f'{MODULE7_OUTDIR}/species_summary.tsv'",
+        "f'{MODULE7_OUTDIR}/candidate_families.tsv'",
+        "f'{MODULE7_OUTDIR}/call_family_map.tsv'",
+        "f'{MODULE7_OUTDIR}/tip_states.tsv'",
+        "f'{MODULE7_OUTDIR}/cross_caller_associations.tsv'",
+        "f'{MODULE7_OUTDIR}/genome_sizes.tsv'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module7.smk"
+    },
+    {
+      "name": "module8_complete",
+      "module": "8",
+      "kind": "rule",
+      "inputs": [
+        "f'{MODULE8_OUTDIR}/analysis_summary.tsv'",
+        "f'{MODULE8_OUTDIR}/species_metrics.tsv'",
+        "f'{MODULE8_OUTDIR}/caller_agreement.tsv'",
+        "f'{MODULE8_OUTDIR}/caller_agreement_calls.tsv'",
+        "f'{MODULE8_OUTDIR}/caller_agreement_families.tsv'",
+        "f'{MODULE8_OUTDIR}/figures/family_lengths.png'",
+        "f'{MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png'",
+        "f'{MODULE8_OUTDIR}/figures/families_per_callable_genome.png'",
+        "f'{MODULE8_OUTDIR}/figures/caller_agreement.png'",
+        "f'{MODULE8_OUTDIR}/figures/agreement_family_lengths.png'"
+      ],
+      "outputs": [],
+      "logs": [],
+      "source": "workflow/rules/module8.smk"
+    },
+    {
+      "name": "module8_analyze",
+      "module": "8",
+      "kind": "rule",
+      "inputs": [
+        "f'{MODULE7_OUTDIR}/run_summary.tsv'",
+        "f'{MODULE7_OUTDIR}/species_summary.tsv'",
+        "f'{MODULE7_OUTDIR}/candidate_families.tsv'",
+        "f'{MODULE7_OUTDIR}/genome_sizes.tsv'",
+        "f'{MODULE7_OUTDIR}/call_family_map.tsv'",
+        "f'{MODULE7_OUTDIR}/cross_caller_associations.tsv'",
+        "'src/ibp/module8/agreement.py'",
+        "'src/ibp/module8/analyze.py'"
+      ],
+      "outputs": [
+        "f'{MODULE8_OUTDIR}/analysis_summary.tsv'",
+        "f'{MODULE8_OUTDIR}/species_metrics.tsv'",
+        "f'{MODULE8_OUTDIR}/caller_agreement.tsv'",
+        "f'{MODULE8_OUTDIR}/caller_agreement_calls.tsv'",
+        "f'{MODULE8_OUTDIR}/caller_agreement_families.tsv'",
+        "f'{MODULE8_OUTDIR}/figures/family_lengths.png'",
+        "f'{MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png'",
+        "f'{MODULE8_OUTDIR}/figures/families_per_callable_genome.png'",
+        "f'{MODULE8_OUTDIR}/figures/caller_agreement.png'",
+        "f'{MODULE8_OUTDIR}/figures/agreement_family_lengths.png'"
+      ],
+      "logs": [],
+      "source": "workflow/rules/module8.smk"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "ded7bf9d500b",
+      "producer": "fetch_metadata",
+      "producerModule": "1",
+      "expression": "'data/raw/all_prokaryotes_metadata.tsv'",
+      "normalized": "data/raw/all_prokaryotes_metadata.tsv",
+      "confidence": "literal",
+      "consumers": [
+        {
+          "rule": "filter_assemblies",
+          "module": "1",
+          "inputExpression": "'data/raw/all_prokaryotes_metadata.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "adf582c68312",
+      "producer": "filter_assemblies",
+      "producerModule": "1",
+      "expression": "'data/processed/candidates.tsv'",
+      "normalized": "data/processed/candidates.tsv",
+      "confidence": "literal",
+      "consumers": [
+        {
+          "rule": "select_multiassembly_species",
+          "module": "1",
+          "inputExpression": "'data/processed/candidates.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "1f5af8199941",
+      "producer": "filter_assemblies",
+      "producerModule": "1",
+      "expression": "'data/processed/unknown.tsv'",
+      "normalized": "data/processed/unknown.tsv",
+      "confidence": "literal",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "known-unconsumed-in-declarations"
+    },
+    {
+      "id": "d7e7e23f6ef2",
+      "producer": "filter_assemblies",
+      "producerModule": "1",
+      "expression": "'data/processed/reference_guided.tsv'",
+      "normalized": "data/processed/reference_guided.tsv",
+      "confidence": "literal",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "known-unconsumed-in-declarations"
+    },
+    {
+      "id": "b9909cdbe142",
+      "producer": "select_multiassembly_species",
+      "producerModule": "1",
+      "expression": "'data/processed/selected_assemblies.tsv'",
+      "normalized": "data/processed/selected_assemblies.tsv",
+      "confidence": "literal",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "known-unconsumed-in-declarations"
+    },
+    {
+      "id": "9ad06c4db77a",
+      "producer": "select_multiassembly_species",
+      "producerModule": "1",
+      "expression": "'data/processed/selection_summary.tsv'",
+      "normalized": "data/processed/selection_summary.tsv",
+      "confidence": "literal",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "known-unconsumed-in-declarations"
+    },
+    {
+      "id": "10c34b6c5d51",
+      "producer": "write_accessions",
+      "producerModule": "2",
+      "expression": "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'",
+      "normalized": "${RUN_PROCESSED_DIR}/selected_accessions.txt",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "download_genome_package",
+          "module": "2",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'"
+        },
+        {
+          "rule": "download_genomes",
+          "module": "2",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'"
+        },
+        {
+          "rule": "fetch_sequence_reports",
+          "module": "2",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/selected_accessions.txt'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "2910ec0689b5",
+      "producer": "download_genome_package",
+      "producerModule": "2",
+      "expression": "DOWNLOAD_DIR + '/genomes.zip'",
+      "normalized": "${DOWNLOAD_DIR}/genomes.zip",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "download_genomes",
+          "module": "2",
+          "inputExpression": "DOWNLOAD_DIR + '/genomes.zip'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "f67e04682715",
+      "producer": "download_genomes",
+      "producerModule": "2",
+      "expression": "DOWNLOAD_DIR + '/genomes'",
+      "normalized": "${DOWNLOAD_DIR}/genomes",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "genome_qc",
+          "module": "2",
+          "inputExpression": "DOWNLOAD_DIR + '/genomes'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "9b3f4e0ef946",
+      "producer": "fetch_sequence_reports",
+      "producerModule": "2",
+      "expression": "DOWNLOAD_DIR + '/sequence_reports.zip'",
+      "normalized": "${DOWNLOAD_DIR}/sequence_reports.zip",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "f7cea2ed0cff",
+      "producer": "fetch_sequence_reports",
+      "producerModule": "2",
+      "expression": "directory(DOWNLOAD_DIR + '/sequence_reports')",
+      "normalized": "${DOWNLOAD_DIR}/sequence_reports",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "genome_qc",
+          "module": "2",
+          "inputExpression": "DOWNLOAD_DIR + '/sequence_reports'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "0f6109fe896f",
+      "producer": "genome_qc",
+      "producerModule": "2",
+      "expression": "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'",
+      "normalized": "${RUN_PROCESSED_DIR}/genome_qc.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "fetch_chromosome_topology",
+          "module": "3",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'"
+        },
+        {
+          "rule": "prepare_species",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "fetch_chromosome_topology",
+          "module": "3",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'"
+        },
+        {
+          "rule": "prepare_species",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/genome_qc.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "e9f3d9ece70c",
+      "producer": "genome_qc",
+      "producerModule": "2",
+      "expression": "f'{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv'",
+      "normalized": "${RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "normalize_chromosomes",
+          "module": "3",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "normalize_chromosomes",
+          "module": "3",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/qc_passed_assemblies.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "a622d1436a2d",
+      "producer": "genome_qc",
+      "producerModule": "2",
+      "expression": "directory(DOWNLOAD_DIR + '/chromosomes')",
+      "normalized": "${DOWNLOAD_DIR}/chromosomes",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "normalize_chromosomes",
+          "module": "3",
+          "inputExpression": "DOWNLOAD_DIR + '/chromosomes'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "normalize_chromosomes",
+          "module": "3",
+          "inputExpression": "DOWNLOAD_DIR + '/chromosomes'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "186951791c8d",
+      "producer": "fetch_chromosome_topology",
+      "producerModule": "3",
+      "expression": "f'{RUN_PROCESSED_DIR}/chromosome_topology.tsv'",
+      "normalized": "${RUN_PROCESSED_DIR}/chromosome_topology.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "normalize_chromosomes",
+          "module": "3",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/chromosome_topology.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "fecf4582fc4d",
+      "producer": "normalize_chromosomes",
+      "producerModule": "3",
+      "expression": "f'{RUN_PROCESSED_DIR}/normalization.tsv'",
+      "normalized": "${RUN_PROCESSED_DIR}/normalization.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "select_reference",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalization.tsv'"
+        },
+        {
+          "rule": "prepare_species",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalization.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "select_reference",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalization.tsv'"
+        },
+        {
+          "rule": "prepare_species",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalization.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "e40c3d381ce1",
+      "producer": "normalize_chromosomes",
+      "producerModule": "3",
+      "expression": "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'",
+      "normalized": "${RUN_PROCESSED_DIR}/normalized_assemblies.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "select_reference",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'"
+        },
+        {
+          "rule": "prepare_species",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "select_reference",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'"
+        },
+        {
+          "rule": "prepare_species",
+          "module": "4",
+          "inputExpression": "f'{RUN_PROCESSED_DIR}/normalized_assemblies.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "02d96f453ee6",
+      "producer": "normalize_chromosomes",
+      "producerModule": "3",
+      "expression": "directory(DOWNLOAD_DIR + '/normalized_chromosomes')",
+      "normalized": "${DOWNLOAD_DIR}/normalized_chromosomes",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "3ec9bee4e561",
+      "producer": "select_reference",
+      "producerModule": "4",
+      "expression": "REFERENCE_DIR + '/reference.txt'",
+      "normalized": "${REFERENCE_DIR}/reference.txt",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "153a64eaf761",
+      "producer": "select_reference",
+      "producerModule": "4",
+      "expression": "REFERENCE_DIR + '/reference_ranking.tsv'",
+      "normalized": "${REFERENCE_DIR}/reference_ranking.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "aa4ec1bf6787",
+      "producer": "select_reference",
+      "producerModule": "4",
+      "expression": "REFERENCE_DIR + '/mash_distances.tsv'",
+      "normalized": "${REFERENCE_DIR}/mash_distances.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "9b2f09fd2d6d",
+      "producer": "select_reference",
+      "producerModule": "4",
+      "expression": "REFERENCE_DIR + '/chromosomes.msh'",
+      "normalized": "${REFERENCE_DIR}/chromosomes.msh",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "ab58fcc755f3",
+      "producer": "prepare_species",
+      "producerModule": "4",
+      "expression": "protected(directory(PREPARED_DIR))",
+      "normalized": null,
+      "confidence": "unresolved",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "87ba65720679",
+      "producer": "inversion_pair",
+      "producerModule": "5",
+      "expression": "f'{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/status.json'",
+      "normalized": "${RESULTS}/{species_id}/{cohort_id}/{caller}/{query_assembly}/status.json",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "0a056e6106f5",
+      "producer": "inversion_pair",
+      "producerModule": "5",
+      "expression": "f'{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/calls.tsv'",
+      "normalized": "${RESULTS}/{species_id}/{cohort_id}/{caller}/{query_assembly}/calls.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "51ae35bb9e1c",
+      "producer": "inversion_pair",
+      "producerModule": "5",
+      "expression": "f'{RESULTS}/{{species_id}}/{{cohort_id}}/{{caller}}/{{query_assembly}}/inversions.tsv'",
+      "normalized": "${RESULTS}/{species_id}/{cohort_id}/{caller}/{query_assembly}/inversions.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "0b69a9250fa4",
+      "producer": "module5_cohort_report",
+      "producerModule": "5",
+      "expression": "f'{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv'",
+      "normalized": "${RESULTS}/{species_id}/{cohort_id}/comparisons.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module6_catalogue",
+          "module": "6",
+          "inputExpression": "f'{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "module6_catalogue",
+          "module": "6",
+          "inputExpression": "f'{RESULTS}/{{species_id}}/{{cohort_id}}/comparisons.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "54ae9cb4eeb3",
+      "producer": "module6_catalogue",
+      "producerModule": "6",
+      "expression": "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/candidate_families.tsv'",
+      "normalized": "${MODULE6_RESULTS}/{species_id}/{cohort_id}/candidate_families.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "f5b7b48098cb",
+      "producer": "module6_catalogue",
+      "producerModule": "6",
+      "expression": "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/call_family_map.tsv'",
+      "normalized": "${MODULE6_RESULTS}/{species_id}/{cohort_id}/call_family_map.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "7925ff513a04",
+      "producer": "module6_catalogue",
+      "producerModule": "6",
+      "expression": "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/tip_states.tsv'",
+      "normalized": "${MODULE6_RESULTS}/{species_id}/{cohort_id}/tip_states.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "7e7952b2dd84",
+      "producer": "module6_catalogue",
+      "producerModule": "6",
+      "expression": "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/cross_caller_associations.tsv'",
+      "normalized": "${MODULE6_RESULTS}/{species_id}/{cohort_id}/cross_caller_associations.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "a5cc3d383ab0",
+      "producer": "module6_catalogue",
+      "producerModule": "6",
+      "expression": "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/genome_sizes.tsv'",
+      "normalized": "${MODULE6_RESULTS}/{species_id}/{cohort_id}/genome_sizes.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "9cd05633b6e6",
+      "producer": "module6_catalogue",
+      "producerModule": "6",
+      "expression": "f'{MODULE6_RESULTS}/{{species_id}}/{{cohort_id}}/summary.tsv'",
+      "normalized": "${MODULE6_RESULTS}/{species_id}/{cohort_id}/summary.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "ea462286cdf2",
+      "producer": "module7_aggregate",
+      "producerModule": "7",
+      "expression": "f'{MODULE7_OUTDIR}/run_summary.tsv'",
+      "normalized": "${MODULE7_OUTDIR}/run_summary.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module7_complete",
+          "module": "7",
+          "inputExpression": "f'{MODULE7_OUTDIR}/run_summary.tsv'"
+        },
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/run_summary.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/run_summary.tsv'"
+        }
+      ],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "200314931214",
+      "producer": "module7_aggregate",
+      "producerModule": "7",
+      "expression": "f'{MODULE7_OUTDIR}/species_summary.tsv'",
+      "normalized": "${MODULE7_OUTDIR}/species_summary.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/species_summary.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/species_summary.tsv'"
+        }
+      ],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "f41e65445d88",
+      "producer": "module7_aggregate",
+      "producerModule": "7",
+      "expression": "f'{MODULE7_OUTDIR}/candidate_families.tsv'",
+      "normalized": "${MODULE7_OUTDIR}/candidate_families.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/candidate_families.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/candidate_families.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "f7ed543d6fa8",
+      "producer": "module7_aggregate",
+      "producerModule": "7",
+      "expression": "f'{MODULE7_OUTDIR}/call_family_map.tsv'",
+      "normalized": "${MODULE7_OUTDIR}/call_family_map.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/call_family_map.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/call_family_map.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "f7211f9234b1",
+      "producer": "module7_aggregate",
+      "producerModule": "7",
+      "expression": "f'{MODULE7_OUTDIR}/tip_states.tsv'",
+      "normalized": "${MODULE7_OUTDIR}/tip_states.tsv",
+      "confidence": "symbolic",
+      "consumers": [],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "unknown-or-terminal"
+    },
+    {
+      "id": "ef36970cbefe",
+      "producer": "module7_aggregate",
+      "producerModule": "7",
+      "expression": "f'{MODULE7_OUTDIR}/cross_caller_associations.tsv'",
+      "normalized": "${MODULE7_OUTDIR}/cross_caller_associations.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/cross_caller_associations.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/cross_caller_associations.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "23e8cb2601d5",
+      "producer": "module7_aggregate",
+      "producerModule": "7",
+      "expression": "f'{MODULE7_OUTDIR}/genome_sizes.tsv'",
+      "normalized": "${MODULE7_OUTDIR}/genome_sizes.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/genome_sizes.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [
+        {
+          "rule": "module8_analyze",
+          "module": "8",
+          "inputExpression": "f'{MODULE7_OUTDIR}/genome_sizes.tsv'"
+        }
+      ],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "7e2c557da136",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/analysis_summary.tsv'",
+      "normalized": "${MODULE8_OUTDIR}/analysis_summary.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/analysis_summary.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "4dc72a952584",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/species_metrics.tsv'",
+      "normalized": "${MODULE8_OUTDIR}/species_metrics.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/species_metrics.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "13b203a7e9b0",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/caller_agreement.tsv'",
+      "normalized": "${MODULE8_OUTDIR}/caller_agreement.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/caller_agreement.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "70319cd74c09",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/caller_agreement_calls.tsv'",
+      "normalized": "${MODULE8_OUTDIR}/caller_agreement_calls.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/caller_agreement_calls.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "8395675259a3",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/caller_agreement_families.tsv'",
+      "normalized": "${MODULE8_OUTDIR}/caller_agreement_families.tsv",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/caller_agreement_families.tsv'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "data",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "075892f3dde4",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/figures/family_lengths.png'",
+      "normalized": "${MODULE8_OUTDIR}/figures/family_lengths.png",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/figures/family_lengths.png'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "7d0a3748b0d7",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png'",
+      "normalized": "${MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/figures/genome_vs_family_sizes.png'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "4ddcda03eac4",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/figures/families_per_callable_genome.png'",
+      "normalized": "${MODULE8_OUTDIR}/figures/families_per_callable_genome.png",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/figures/families_per_callable_genome.png'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "dc0468f6382b",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/figures/caller_agreement.png'",
+      "normalized": "${MODULE8_OUTDIR}/figures/caller_agreement.png",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/figures/caller_agreement.png'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    },
+    {
+      "id": "fff4c7eebef0",
+      "producer": "module8_analyze",
+      "producerModule": "8",
+      "expression": "f'{MODULE8_OUTDIR}/figures/agreement_family_lengths.png'",
+      "normalized": "${MODULE8_OUTDIR}/figures/agreement_family_lengths.png",
+      "confidence": "symbolic",
+      "consumers": [
+        {
+          "rule": "module8_complete",
+          "module": "8",
+          "inputExpression": "f'{MODULE8_OUTDIR}/figures/agreement_family_lengths.png'"
+        }
+      ],
+      "crossModuleConsumers": [],
+      "roleHint": "side",
+      "terminalStatus": "consumed-in-declarations"
+    }
+  ],
+  "counts": {
+    "rules": 23,
+    "outputs": 50,
+    "literalMatches": 2,
+    "symbolicMatches": 27,
+    "unresolvedOutputs": 1
+  }
+}
